@@ -26,6 +26,9 @@ export class Vehicle {
     @Column()
     code: string;
 
+    @Column()
+    isAvailable:boolean;
+
     @OneToMany(() => Ride, (ride) => ride.vehicle)
     rides: Ride[];
 }

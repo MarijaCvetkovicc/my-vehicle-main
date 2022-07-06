@@ -7,7 +7,6 @@ export class CreateRideDto {
   @IsLongitude()
   startPointlng: number;
 
-
   @IsNumber()
   vehicleId: number;
 

@@ -28,6 +28,9 @@ export class Ride {
     @Column({ nullable: true })
     price: number;
 
+    @Column({ nullable: true })
+    imageUrl:string;
+
     @ManyToOne(() => User, (user) => user.rides)
     user: User;
 

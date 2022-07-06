@@ -27,6 +27,10 @@ export class RideDto {
     @Expose()
     price: number;
 
+    @Expose()
+    imageUrl:string;
+
+
     @Transform(({ obj }) => obj.user.id)
     @Expose()
     userId: number;

@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Patch, Post, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { CurrentUser } from 'src/users/decorators/current-user.decorator';
@@ -12,27 +21,31 @@ import { RidesService } from './rides.service';
 @Controller('rides')
 @UseInterceptors(CurrentUserInterceptor)
 export class RidesController {
+  constructor(private rideService: RidesService) {}
 
-    constructor(private rideService: RidesService) { }
+  @Post()
+  @UseGuards(AuthGuard)
+  @Serialize(RideDto)
+  async createRide(@Body() body: CreateRideDto, @CurrentUser() user: User) {
+    const response = await this.rideService.create(body, user);
+    return response;
+  }
 
-    @Post()
-    @UseGuards(AuthGuard)
-    @Serialize(RideDto)
-    createRide(@Body() body: CreateRideDto, @CurrentUser() user: User) {
-        return this.rideService.create(body, user);
-    }
+  @Get()
+  @Serialize(RideDto)
+  findAllRides() {
+    return this.rideService.find();
+  }
 
-    @Get()
-    @Serialize(RideDto)
-    findAllRides() {
-        return this.rideService.find();
-    }
-
-    @Patch('/:id')
-    @UseGuards(AuthGuard)
-    @Serialize(RideDto)
-    endRide(@Param('id') id: string, @Body() body: UpdateRideDto, @CurrentUser() user: User) {
-        return this.rideService.endRide(parseInt(id), body, user);
-    }
-
+  @Patch('/:id')
+  @UseGuards(AuthGuard)
+  @Serialize(RideDto)
+  async endRide(
+    @Param('id') id: string,
+    @Body() body: UpdateRideDto,
+    @CurrentUser() user: User,
+  ) {
+    const response = await this.rideService.endRide(parseInt(id), body, user);
+    return response;
+  }
 }

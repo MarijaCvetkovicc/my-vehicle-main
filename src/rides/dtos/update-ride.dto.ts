@@ -1,4 +1,4 @@
-import { IsLongitude, IsLatitude } from "class-validator";
+import { IsLongitude, IsLatitude, IsString } from "class-validator";
 
 export class UpdateRideDto {
 
@@ -8,4 +8,6 @@ export class UpdateRideDto {
     @IsLongitude()
     endPointlng: number;
 
+    @IsString()
+    imageUrl:string;
 }
